@@ -1,9 +1,8 @@
-from typing import Union
-from masks import get_card_mask
-from masks import get_account_mask
+from src.masks import get_card_mask
+from src.masks import get_account_mask
 
 
-def mask_of_data(bank_user_data: Union[str, int]) -> str:
+def mask_of_data(bank_user_data: str) -> str:
     """Функция маскировки части пользовательских данных звездочками, в случае если данные Карта/счет + номер"""
 
     mask_number: list = []
@@ -24,20 +23,12 @@ def mask_of_data(bank_user_data: Union[str, int]) -> str:
         return "".join(type_of_data) + " " + get_account_mask("".join(mask_number))
 
 
-def extraction_date(exact_time: Union[str, int]) -> str:
+def extraction_date(exact_time: str) -> str:
     """Функция вывода только даты в европейском формате из точной даты и времени в американском формате"""
 
-    format_date = str(exact_time)
+    # Выделяем срезами нужные индексы в исходных данных, так как их формат всегда одинаковый
+    date: str = exact_time[8:10]
+    month: str = exact_time[5:7]
+    year: str = exact_time[:4]
 
-    date: list = [format_date]
-
-    print(date)
-
-
-z = mask_of_data("MasterCard 7158300734726758")
-c = mask_of_data("Счет 73654108430135874305")
-q = extraction_date("2018-07-11T02:26:18.671407")
-
-print(z)
-print(c)
-print(q)
+    return "".join(date) + "." + "".join(month) + "." + "".join(year)
