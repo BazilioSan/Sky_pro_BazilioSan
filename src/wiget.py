@@ -34,30 +34,3 @@ def extraction_date(exact_time: str) -> str:
     return "".join(date) + "." + "".join(month) + "." + "".join(year)
 
 
-# ДОПОЛНИТЕЛЬНОЕ ЗАДАНИЕ 1
-
-
-def get_matching_strings(input_list: list) -> list:
-    """Функция, возвращающая список строк с совпадающими первой и последней буквами."""
-    result_list = []
-    for string in input_list:
-        if string[0] == string[-1]:
-            result_list.append(string)
-    return result_list
-
-
-# ДОПОЛНИТЕЛЬНОЕ ЗАДАНИЕ 2
-
-
-def max_multiply(digit_list: list) -> int :
-    """Функция, возвращающая максимальное произведение двух элементов списка."""
-    result = 0
-    if len(digit_list) >= 2:
-        for i in range(len(digit_list)):
-            for j in range(i + 1, len(digit_list)):
-                multiply_result = digit_list[i] * digit_list[j]
-                if multiply_result > result:
-                    result = multiply_result
-        return result
-    else:
-        return 0
