@@ -22,6 +22,8 @@ def mask_of_data(bank_user_data: str) -> str:
     elif len(mask_number) == 20:
         return "".join(type_of_data) + " " + get_account_mask("".join(mask_number))
 
+    return "Ошибка при вводе данных"
+
 
 def extraction_date(exact_time: str) -> str:
     """Функция вывода только даты в европейском формате из точной даты и времени в американском формате"""
