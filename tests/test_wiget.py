@@ -18,6 +18,7 @@ from src.wiget import extraction_date
     ],
 )
 def test_mask_of_data(data, expected_data):
+    """Функция тестирования mask_of_data"""
     assert mask_of_data(data) == expected_data
 
 
@@ -25,4 +26,5 @@ def test_mask_of_data(data, expected_data):
     "date, expected_date", [("2018-07-11T02:26:18.671407", "11.07.2018"), ("2019-06-10T02:26:18.671407", "10.06.2019")]
 )
 def test_extraction_date(date, expected_date):
+    """Функция тестирования extraction_date"""
     assert extraction_date(date) == expected_date
