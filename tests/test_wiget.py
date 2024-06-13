@@ -1,7 +1,6 @@
 import pytest
 
-from src.wiget import mask_of_data
-from src.wiget import extraction_date
+from src.wiget import extraction_date, mask_of_data
 
 
 @pytest.mark.parametrize(

@@ -1,5 +1,4 @@
-from src.processing import filter_by_state
-from src.processing import sort_by_date
+from src.processing import filter_by_state, sort_by_date
 
 
 def test_filter_by_state(fxtr_for_processing):

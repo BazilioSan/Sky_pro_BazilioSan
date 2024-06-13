@@ -1,7 +1,6 @@
 import pytest
 
-from src.masks import get_card_mask
-from src.masks import get_account_mask
+from src.masks import get_account_mask, get_card_mask
 
 
 @pytest.mark.parametrize(
