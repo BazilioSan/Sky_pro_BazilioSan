@@ -1,7 +1,7 @@
 from typing import Iterable
 
 
-def filter_by_state(list_of_data: dict, state: str = "EXECUTTED") -> Iterable[dict]:
+def filter_by_state(list_of_data: dict, state: str = "EXECUTED") -> Iterable[dict]:
     """Функция, возвращающая список словарей с указанным состоянием."""
 
     result = []
