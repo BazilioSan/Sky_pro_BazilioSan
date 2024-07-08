@@ -61,3 +61,11 @@ def fxtr_for_generators() -> list[dict[str, Any]]:
             "to": "Счет 14211924144426031657",
         },
     ]
+
+@pytest.fixture
+def fxtr_mock_transactions():
+    return [
+        {"id": 1, "operationAmount": {"amount": "100.00", "currency": {"code": "RUB"}}},
+        {"id": 2, "operationAmount": {"amount": "50.00", "currency": {"code": "USD"}}},
+        {"id": 3, "operationAmount": {"amount": "75.00", "currency": {"code": "EUR"}}}
+    ]
