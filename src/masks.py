@@ -8,8 +8,8 @@ if not os.path.exists(logs_dir):
 
 logger = logging.getLogger("masks")
 logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler("logs/masks.log")
-file_formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)")
+file_handler = logging.FileHandler("../logs/masks.log", encoding='utf-8')
+file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(funcName)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 

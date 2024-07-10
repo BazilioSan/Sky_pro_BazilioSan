@@ -1,13 +1,18 @@
+import csv
 import json
 import logging
 import os
 
 from src.external_api import convert_currency
 
+logs_dir = os.path.join(os.path.dirname(__file__), "..", 'logs')
+if not os.path.exists(logs_dir):
+    os.makedirs(logs_dir)
+
 logger = logging.getLogger("utils")
 logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler("logs/utils.log")
-file_formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)")
+file_handler = logging.FileHandler("../logs/masks.log", encoding='utf-8')
+file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(funcName)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 
@@ -70,6 +75,39 @@ def get_transaction_amount(transactions: list, transaction_id: int):
         logger.error("Ошибка. Транзакция не найдена")
         return "Транзакция не найдена"
 
-# if __name__ == "__main__":
-#     transactions = get_transactions_json("../data/operations.json")
-#     print(get_transaction_amount(transactions, 41428829))
+
+def get_transaction_from_csv(file_path: str = None) -> list:
+    """Функция чтения и парсинга файла с транзакциями из CSV"""
+
+    if file_path is None:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(base_dir, "..", "data", "transactions.csv")
+
+    try:
+        with open(file_path, "r", encoding="utf-8") as file:
+            data = csv.reader(file, delimiter=';')
+            next(data)
+            rows = []
+            for row in data:
+                id, state, date, amount, currency_name, currency_code, _from, _to, description = row
+                if all(row):
+                    rows.append(row)
+            if not rows:
+                raise ValueError("Файл не содержит данные")
+            return rows
+
+    except FileNotFoundError:
+        print("Ошибка. Файл не найден")
+        return []
+
+# file_path = r'C:\Users\BSan\Desktop\SP\SP9\data\transactions.csv'
+f = get_transaction_from_csv()
+print(f)
+
+def get_transaction_from_xlsx(file_path: str = None) -> list:
+    """Функция чтения и парсинга файла с транзакциями из Excel"""
+
+    if file_path is None:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(base_dir, "..", "data", "transactions_excell.xlsx")
+
