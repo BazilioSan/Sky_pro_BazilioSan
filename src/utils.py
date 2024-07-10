@@ -2,16 +2,20 @@ import csv
 import json
 import logging
 import os
+from typing import Union, Any
+
+import pandas
+import pandas as pd
 
 from src.external_api import convert_currency
 
-logs_dir = os.path.join(os.path.dirname(__file__), "..", 'logs')
+logs_dir = os.path.join(os.path.dirname(__file__), "..", "logs")
 if not os.path.exists(logs_dir):
     os.makedirs(logs_dir)
 
 logger = logging.getLogger("utils")
 logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler("../logs/masks.log", encoding='utf-8')
+file_handler = logging.FileHandler("../logs/masks.log", encoding="utf-8")
 file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(funcName)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
@@ -51,7 +55,7 @@ def get_transactions_json(file_path: str = None) -> list:
         return []
 
 
-def get_transaction_amount(transactions: list, transaction_id: int):
+def get_transaction_amount(transactions: list, transaction_id: int) -> Union[str, Any]:
     """Функция конвертации конкретной транзакции"""
 
     logger.info(f"Запуск функции. Поиск транзакции с id {transaction_id}")
@@ -83,9 +87,10 @@ def get_transaction_from_csv(file_path: str = None) -> list:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(base_dir, "..", "data", "transactions.csv")
 
+    logger.info(f"Запуск функции. Чтение файла из директории {file_path}")
     try:
         with open(file_path, "r", encoding="utf-8") as file:
-            data = csv.reader(file, delimiter=';')
+            data = csv.reader(file, delimiter=";")
             next(data)
             rows = []
             for row in data:
@@ -93,21 +98,48 @@ def get_transaction_from_csv(file_path: str = None) -> list:
                 if all(row):
                     rows.append(row)
             if not rows:
+                logger.error("Ошибка. Файл не содержит данных")
                 raise ValueError("Файл не содержит данные")
+            logger.info("Функция успешно отработала.")
             return rows
 
     except FileNotFoundError:
+        logger.error("Ошибка. Файл не найден")
         print("Ошибка. Файл не найден")
         return []
 
-# file_path = r'C:\Users\BSan\Desktop\SP\SP9\data\transactions.csv'
-f = get_transaction_from_csv()
-print(f)
+
+# # file_path = r'C:\Users\BSan\Desktop\SP\SP9\data\transactions.csv'
+# f = get_transaction_from_csv()
+# print(f)
+
 
 def get_transaction_from_xlsx(file_path: str = None) -> list:
-    """Функция чтения и парсинга файла с транзакциями из Excel"""
+    """Функция чтения и парсинга файла с транзакциями из XLSX"""
 
     if file_path is None:
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(base_dir, "..", "data", "transactions_excell.xlsx")
+        file_path = os.path.join(base_dir, "..", "data", "transactions.xlsx")
 
+    logger.info(f"Запуск функции. Чтение файла из директории {file_path}")
+    try:
+        data = pd.read_excel(file_path, header=1)
+        rows = []
+        for index, row in data.iterrows():
+            id, state, date, amount, currency_name, currency_code, _from, _to, description = row
+            if all(row):
+                rows.append(row)
+        if not rows:
+            logger.error("Ошибка. Файл не содержит данных")
+            raise ValueError("Файл не содержит данные")
+        return rows
+
+    except FileNotFoundError:
+        logger.error("Ошибка. Файл не найден")
+        print("Ошибка. Файл не найден")
+        return []
+
+
+# file_path = r"C:\Users\BSan\Desktop\SP\SP9\data\transactions_excel.xlsx"
+# f = get_transaction_from_xlsx(file_path)
+# print(f)

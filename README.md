@@ -32,6 +32,10 @@ get_transactions_json - Функция чтения и парсинга файл
 
 get_transaction_amount - Функция конвертации конкретной транзакции
 
+get_transaction_from_csv - Функция чтения и парсинга файлов csv
+
+get_transaction_from_xlss - Функция чтения и парсинга файлов xlsx
+
 ## Тестирование:
 
 Тестирование производится с помощью библиотеки pytest.

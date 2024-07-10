@@ -1,7 +1,8 @@
 from pathlib import Path
 from unittest.mock import patch
 
-from utils.transactions import get_transaction_amount, get_transactions_json
+from src.utils import get_transaction_amount, get_transactions_json
+from src.utils import get_transaction_from_csv, get_transaction_from_xlsx
 
 
 def test_read_file_with_data():
@@ -67,3 +68,17 @@ def test_get_transaction_amount_not_found(fxtr_mock_transactions):
     transaction_id = 4
     result = get_transaction_amount(fxtr_mock_transactions, transaction_id)
     assert result == "Транзакция не найдена"
+
+
+def test_get_transactions_from_csv():
+    """Тест чтения из CSV файла"""
+    file_path = r"C:\Users\BSan\Desktop\SP\SP9\tests\test_data\transactions.csv"
+    transactions = get_transaction_from_csv(file_path)
+    assert len(transactions) == 12  # предположим, что в файле содержится 12 строк данных
+
+
+def test_get_transactions_from_xlsx():
+    """Тест чтения из XLSX файла"""
+    file_path = r"C:\Users\BSan\Desktop\SP\SP9\tests\test_data\transactions_excel.xlsx"
+    transactions = get_transaction_from_xlsx(file_path)
+    assert len(transactions) == 16  # предположим, что в файле содержится 16 строк данных
