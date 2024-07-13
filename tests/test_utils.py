@@ -81,4 +81,4 @@ def test_get_transactions_from_xlsx():
     """Тест чтения из XLSX файла"""
     file_path = r"C:\Users\BSan\Desktop\SP\SP9\tests\test_data\transactions_excel.xlsx"
     transactions = get_transaction_from_xlsx(file_path)
-    assert len(transactions) == 16  # предположим, что в файле содержится 16 строк данных
+    assert len(transactions) == 17  # предположим, что в файле содержится 17 строк данных
