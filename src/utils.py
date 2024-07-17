@@ -109,36 +109,6 @@ def get_transaction_from_csv(file_path: str = None) -> list:
         return []
 
 
-# # file_path = r'C:\Users\BSan\Desktop\SP\SP9\data\transactions.csv'
-# f = get_transaction_from_csv()
-# print(f)
-
-
-# def get_transaction_from_xlsx(file_path: str = None) -> list:
-#     """Функция чтения и парсинга файла с транзакциями из XLSX"""
-#
-#     if file_path is None:
-#         base_dir = os.path.dirname(os.path.abspath(__file__))
-#         file_path = os.path.join(base_dir, "..", "data", "transactions.xlsx")
-#
-#     logger.info(f"Запуск функции. Чтение файла из директории {file_path}")
-#     try:
-#         data = pd.read_excel(file_path, header=1)
-#         rows = []
-#         for index, row in data.iterrows():
-#             id, state, date, amount, currency_name, currency_code, _from, _to, description = row
-#             if all(row):
-#                 rows.append(row)
-#         if not rows:
-#             logger.error("Ошибка. Файл не содержит данных")
-#             raise ValueError("Файл не содержит данные")
-#         return rows
-#
-#     except FileNotFoundError:
-#         logger.error("Ошибка. Файл не найден")
-#         print("Ошибка. Файл не найден")
-#         return []
-
 def get_transaction_from_xlsx(file_path: str = None) -> list[dict]:
     """Функция чтения и парсинга файла с транзакциями из XLSX"""
 
@@ -161,6 +131,6 @@ def get_transaction_from_xlsx(file_path: str = None) -> list[dict]:
         return []
 
 
-file_path = r"C:\Users\BSan\Desktop\SP\SP9\data\transactions_excel.xlsx"
-f = get_transaction_from_xlsx(file_path)
-print(f)
+# file_path = r"C:\Users\BSan\Desktop\SP\SP9\data\transactions_excel.xlsx"
+# f = get_transaction_from_xlsx(file_path)
+# print(f)

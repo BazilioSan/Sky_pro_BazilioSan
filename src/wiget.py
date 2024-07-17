@@ -33,5 +33,3 @@ def extraction_date(exact_time: str) -> str:
     year: str = exact_time[:4]
 
     return "".join(date) + "." + "".join(month) + "." + "".join(year)
-
-

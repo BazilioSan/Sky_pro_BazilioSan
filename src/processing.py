@@ -1,7 +1,8 @@
 from typing import Iterable
+from typing import Any
 
 
-def filter_by_state(list_of_data: dict, state: str = "EXECUTED") -> Iterable[dict]:
+def filter_by_state(list_of_data: Any, state: str = "EXECUTED") -> Iterable[dict]:
     """Функция, возвращающая список словарей с указанным состоянием."""
 
     result = []
@@ -12,7 +13,7 @@ def filter_by_state(list_of_data: dict, state: str = "EXECUTED") -> Iterable[dic
     return result
 
 
-def sort_by_date(list_of_dicts: dict, order: bool = True) -> Iterable[dict]:
+def sort_by_date(list_of_dicts: Any, order: bool = True) -> Iterable[dict]:
     """Функция, возвращающая список словарей, отсортированных по дате."""
 
     result = sorted(list_of_dicts, key=lambda x: x["date"], reverse=order)
