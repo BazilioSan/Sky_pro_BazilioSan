@@ -4,9 +4,26 @@ from src.search import categorize_transactions
 from src.utils import get_transaction_from_csv, get_transaction_from_xlsx, get_transactions_json
 from src.wiget import extraction_date, mask_of_data
 
+import logging
+import os
+
+logs_dir = os.path.join(os.path.dirname(__file__), "..", "logs")
+if not os.path.exists(logs_dir):
+    os.makedirs(logs_dir)
+
+logger = logging.getLogger("main")
+logger.setLevel(logging.INFO)
+file_handler = logging.FileHandler("logs/main.log", encoding="utf-8")
+file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(funcName)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(file_formatter)
+logger.addHandler(file_handler)
+
 
 def main():
+
     global filtered_transactions
+
+    logger.info(f"Запуск функции")
 
     print("Привет! Добро пожаловать в программу работы с банковскими транзакциями.")
     print("Выберите необходимый пункт меню:")
@@ -15,6 +32,8 @@ def main():
     print("3. Получить информацию о транзакциях из XLSX-файла")
 
     choice = input("Ваш выбор: ")
+
+    logger.info(f"Выбран пункт {choice}")
 
     if choice == "1":
         print("Для обработки выбран JSON-файл.")
@@ -69,7 +88,7 @@ def main():
 
         print(f"{extraction_date('date')}, {transaction['description']}")
         print(mask_of_data(transaction))
-        print(f"Сумма: {transaction['amount']} {transaction['currency']}") # тут как то надо впихать значения из categorize_transactions
+        print(f"Сумма: {transaction['amount']} {transaction['currency']}")  # тут как то надо впихать значения из categorize_transactions
 
 
 if __name__ == "__main__":

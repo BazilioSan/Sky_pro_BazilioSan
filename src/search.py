@@ -13,7 +13,7 @@ def search_transactions(transactions: list, search_string: str) -> list:
     return result
 
 
-def categorize_transactions(transactions: list, categories: str) -> dict:
+def categorize_transactions(transactions: list, categories: list) -> dict:
     """
     Принимает список словарей с данными о банковских операциях и список категорий операций,
     возвращает словарь, в котором ключи — это названия категорий, а значения — это количество операций в каждой категории.

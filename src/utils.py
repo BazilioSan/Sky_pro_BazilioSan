@@ -4,7 +4,6 @@ import logging
 import os
 from typing import Union, Any
 
-import pandas
 import pandas as pd
 
 from src.external_api import convert_currency
@@ -15,7 +14,7 @@ if not os.path.exists(logs_dir):
 
 logger = logging.getLogger("utils")
 logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler("../logs/masks.log", encoding="utf-8")
+file_handler = logging.FileHandler("logs/masks.log", encoding="utf-8")
 file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(funcName)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
@@ -27,8 +26,8 @@ def get_transactions_json(file_path: str = None) -> list:
     logger.info(f"Запуск функции. Чтение файла {file_path}")
 
     if file_path is None:
-        base_dir = os.getcwd()
-        file_path = os.path.join(base_dir, "data", "operations.json")
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(base_dir, ".." "data", "operations.json")
 
     # Таким образом мы предусматриваем, что можно ввести путь до какого либо файла с данными,
     # а по дефолту будет файл из папки data
@@ -132,5 +131,5 @@ def get_transaction_from_xlsx(file_path: str = None) -> list[dict]:
 
 
 # file_path = r"C:\Users\BSan\Desktop\SP\SP9\data\transactions_excel.xlsx"
-# f = get_transaction_from_xlsx(file_path)
+# f = get_transaction_from_xlsx()
 # print(f)

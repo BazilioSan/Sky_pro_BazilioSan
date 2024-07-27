@@ -8,7 +8,7 @@ if not os.path.exists(logs_dir):
 
 logger = logging.getLogger("masks")
 logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler("../logs/masks.log", encoding='utf-8')
+file_handler = logging.FileHandler("logs/masks.log", encoding='utf-8')
 file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(funcName)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
@@ -63,5 +63,5 @@ def get_account_mask(account_number: Union[str, int]) -> str:
     return "".join(mask_number)
 
 
-a = get_account_mask(73654108430135874305)
-print(a)
+# a = get_account_mask(73654108430135874305)
+# print(a)

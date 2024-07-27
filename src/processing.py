@@ -6,8 +6,13 @@ def filter_by_state(list_of_data: Any, state: str = "EXECUTED") -> Iterable[dict
     """Функция, возвращающая список словарей с указанным состоянием."""
 
     result = []
+
+    # for dictionary in list_of_data:
+    #     if dictionary["state"] == state:
+    #         result.append(dictionary)
+
     for dictionary in list_of_data:
-        if dictionary["state"] == state:
+        if dictionary.get("state") == state:
             result.append(dictionary)
 
     return result
