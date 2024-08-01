@@ -6,8 +6,11 @@ from src.generators import filter_by_currency, transaction_descriptions
 from src.processing import filter_by_state, sort_by_date
 
 from src.utils import get_transaction_from_csv, get_transaction_from_xlsx, get_transactions_json
-from src.utils import csv_excel_reader
+
 from src.wiget import extraction_date, mask_of_data
+
+from src.sorting import sorting_transactions_by_description
+from src.sorting import counting_categories
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -40,7 +43,7 @@ def read_transactions():
     elif user_choice == "2":
         print("Для обработки выбран CSV-файл.")
         file_path = config.get('paths', 'csv_file')
-        return csv_excel_reader(file_path)
+        return get_transaction_from_csv(file_path)
     elif user_choice == "3":
         print("Для обработки выбран XLSX-файл.")
         file_path = config.get('paths', 'xlsx_file')
@@ -78,8 +81,8 @@ def filter_and_sort_transactions(transactions):
 
     filter_description = input("Отфильтровать список транзакций по определенному слову в описании? Да/Нет: ").lower()
     if filter_description == "да":
-        search_term = input("Введите слово для поиска в описании: ")
-        transaction_descriptions(filtered_transactions, search_term)
+        search_string = input("Введите слово для поиска в описании: ")
+        sorting_transactions_by_description(filtered_transactions, search_string)
 
     return filtered_transactions
 
@@ -98,21 +101,6 @@ def display_transactions(transactions):
         else:
             print(f"Открытие вклада на  -> {mask_of_data(transaction['to'])}")
 
-        # if transaction['operationAmount'] in transactions:
-        #     print(f"Сумма: {transaction['operationAmount']['amount']} {transaction['operationAmount']['currency']}")
-        # else:
-        #     print(f"Сумма: {transaction['amount']} {transaction['currency']}")
-
-        # if user_choice == "1":
-        #     print(f"Сумма: {transaction['operationAmount']['amount']} {transaction['operationAmount']['currency']}")
-        # else:
-        #     print(f"Сумма: {transaction['amount']} {transaction['currency']}")
-
-        # if transaction['from'] is not None and transaction['to'] is not None:
-        #     print(f"{transaction.get('from')} -> {transaction.get('to')}")
-        #     print(f"Сумма: {transaction['operationAmount'].get('amount')}")
-        # else:
-        #     print(f"{transaction['to']}")
         print(f"Сумма: {transaction.get('amount')}, {transaction.get('currency_name')}")
 
         print("-" * 50)
