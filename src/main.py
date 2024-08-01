@@ -64,25 +64,55 @@ def filter_and_sort_transactions(transactions):
         print(f"Статус операции '{status}' недоступен.")
         return []
 
-    sort_order = input("Отсортировать операции по дате? Да/Нет: ").lower()
-    if sort_order == "да":
-        sort_direction = input("Отсортировать по возрастанию или по убыванию? ").lower()
-        if sort_direction == "возрастанию":
-            sort_by_date(filtered_transactions, order=True)
-        elif sort_direction == "убыванию":
-            sort_by_date(filtered_transactions, order=False)
+    while True:
+        sort_order = input("Отсортировать операции по дате? Да/Нет: ").lower()
+        if sort_order in ("да", "нет"):
+            break
         else:
-            print("Неверный ввод. Сортировка не выполнена.")
-            return []
+            print("Введён некорректный ответ. Повторите ввод ответа.")
+
+    if sort_order == "да":
+        while True:
+            user_choice_for_date_sort = input("Отсортировать по возрастанию или убыванию? (введите В или У)").upper()
+            if user_choice_for_date_sort in ["В", "У"]:
+                break
+            print("Введён некорректный ответ. Повторите ввод ответа.")
+        if user_choice_for_date_sort == "В":
+            order = True
+        elif user_choice_for_date_sort == "У":
+            order = False
+
+        transactions_sorted_by_date = sort_by_date(filtered_transactions, order)
+
+    elif sort_order == "нет":
+        transactions_sorted_by_date = filtered_transactions
+
+    # if sort_order == "да":
+    #     sort_direction = input("Отсортировать по возрастанию или по убыванию? ").lower()
+    #     if sort_direction == "возрастанию":
+    #         # sort_by_date(filtered_transactions, order=True)
+    #         order = True
+    #     elif sort_direction == "убыванию":
+    #         # sort_by_date(filtered_transactions, order=False)
+    #         order = False
+    #     else:
+    #         print("Неверный ввод. Сортировка не выполнена.")
+    #         return []
 
     filter_currency = input("Выводить только рублевые транзакции? Да/Нет: ").lower()
     if filter_currency == "да":
-        filter_by_currency(filtered_transactions, "RUB")
+        # filter_by_currency(filtered_transactions, "RUB")
+        rub_transactions = [
+            transaction for transaction in transactions_sorted_by_date if transaction["currency_code"] == "RUB"
+        ]
+    elif filter_currency == "нет":
+        rub_transactions = transactions_sorted_by_date
 
     filter_description = input("Отфильтровать список транзакций по определенному слову в описании? Да/Нет: ").lower()
     if filter_description == "да":
         search_string = input("Введите слово для поиска в описании: ")
-        sorting_transactions_by_description(filtered_transactions, search_string)
+        sorted_by_description = sorting_transactions_by_description(rub_transactions, search_string)
+        filtered_transactions = sorted_by_description
 
     return filtered_transactions
 

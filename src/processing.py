@@ -1,5 +1,6 @@
 from typing import Iterable
 from typing import Any
+from datetime import datetime
 
 
 def filter_by_state(list_of_data: Any, state: str = "EXECUTED") -> Iterable[dict]:
@@ -18,6 +19,8 @@ def filter_by_state(list_of_data: Any, state: str = "EXECUTED") -> Iterable[dict
 def sort_by_date(list_of_dicts: Any, order: bool = True) -> Iterable[dict]:
     """Функция, возвращающая список словарей, отсортированных по дате."""
 
-    result = sorted(list_of_dicts, key=lambda x: x["date"], reverse=order)
+    # result = sorted(list_of_dicts, key=lambda x: x["date"], reverse=order)
+    # result = sorted(list_of_dicts, key=lambda x: datetime.fromisoformat(x["date"]), reverse=order)
+    result = sorted(list_of_dicts, key=lambda x: datetime.strptime(x["date"], '%Y-%m-%dT%H:%M:%SZ'), reverse=order)
 
     return result
