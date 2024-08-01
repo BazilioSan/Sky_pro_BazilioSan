@@ -6,6 +6,7 @@ from src.generators import filter_by_currency, transaction_descriptions
 from src.processing import filter_by_state, sort_by_date
 
 from src.utils import get_transaction_from_csv, get_transaction_from_xlsx, get_transactions_json
+from src.utils import csv_excel_reader
 from src.wiget import extraction_date, mask_of_data
 
 config = configparser.ConfigParser()
@@ -35,15 +36,15 @@ def read_transactions():
     if user_choice == "1":
         print("Для обработки выбран JSON-файл.")
         file_path = config.get('paths', 'json_file')
-        return get_transactions_json(file_path), user_choice
+        return get_transactions_json(file_path)
     elif user_choice == "2":
         print("Для обработки выбран CSV-файл.")
         file_path = config.get('paths', 'csv_file')
-        return get_transaction_from_csv(file_path), user_choice
+        return csv_excel_reader(file_path)
     elif user_choice == "3":
         print("Для обработки выбран XLSX-файл.")
         file_path = config.get('paths', 'xlsx_file')
-        return get_transaction_from_xlsx(file_path), user_choice
+        return get_transaction_from_xlsx(file_path)
     else:
         print("Неверный выбор. Пожалуйста, попробуйте еще раз.")
         return [], None
@@ -83,7 +84,7 @@ def filter_and_sort_transactions(transactions):
     return filtered_transactions
 
 
-def display_transactions(transactions, user_choice):
+def display_transactions(transactions):
     if not transactions:
         print("Не найдено ни одной транзакции, подходящей под Ваши условия фильтрации.")
         return
@@ -92,7 +93,10 @@ def display_transactions(transactions, user_choice):
 
     for transaction in transactions:
         print(f"{extraction_date(transaction['date'])}, {transaction['description']}")
-        print(f"{mask_of_data(transaction.get('from', ' '))} -> {mask_of_data(transaction['to'])}")
+        if transaction['description'] != "Открытие вклада":
+            print(f"{mask_of_data(transaction.get('from', ' '))} -> {mask_of_data(transaction['to'])}")
+        else:
+            print(f"Открытие вклада на  -> {mask_of_data(transaction['to'])}")
 
         # if transaction['operationAmount'] in transactions:
         #     print(f"Сумма: {transaction['operationAmount']['amount']} {transaction['operationAmount']['currency']}")
@@ -104,22 +108,21 @@ def display_transactions(transactions, user_choice):
         # else:
         #     print(f"Сумма: {transaction['amount']} {transaction['currency']}")
 
-        if transaction['from'] != None and transaction['to'] != None:
-            print(f"{transaction['from']} -> {transaction['to']}")
-            print(f"Сумма: {transaction['operationAmount'].get('amount')}")
-        else:
-            print(f"{transaction['to']}")
-            print(f"Сумма: {transaction['operationAmount'].get('amount')}
-            " {transaction['operationAmount']['currency'].get('name')}")
+        # if transaction['from'] is not None and transaction['to'] is not None:
+        #     print(f"{transaction.get('from')} -> {transaction.get('to')}")
+        #     print(f"Сумма: {transaction['operationAmount'].get('amount')}")
+        # else:
+        #     print(f"{transaction['to']}")
+        print(f"Сумма: {transaction.get('amount')}, {transaction.get('currency_name')}")
 
-            print("-" * 50)
+        print("-" * 50)
 
 
-def main(user_choice):
+def main():
     logger.info(f"Запуск функции")
     transactions = read_transactions()
     filtered_transactions = filter_and_sort_transactions(transactions)
-    display_transactions(filtered_transactions, user_choice)
+    display_transactions(filtered_transactions)
 
 
 if __name__ == "__main__":

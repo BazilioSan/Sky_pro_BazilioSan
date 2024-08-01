@@ -7,15 +7,12 @@ def filter_by_state(list_of_data: Any, state: str = "EXECUTED") -> Iterable[dict
 
     result = []
 
-    # for dictionary in list_of_data:
-    #     if dictionary["state"] == state:
-    #         result.append(dictionary)
-
     for dictionary in list_of_data:
         if dictionary.get("state") == state:
             result.append(dictionary)
-
     return result
+
+    # return [dictionary for dictionary in list_of_data if dictionary.get("state") == state]
 
 
 def sort_by_date(list_of_dicts: Any, order: bool = True) -> Iterable[dict]:
