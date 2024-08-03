@@ -113,20 +113,6 @@ def get_transaction_from_csv(file_path: str = None) -> list:
 
             logger.info("Функция успешно отработала.")
             return transactions
-    # try:
-    #     with open(file_path, "r", encoding="utf-8") as file:
-    #         data = csv.reader(file, delimiter=";")
-    #         next(data)
-    #         rows = []
-    #         for row in data:
-    #             id, state, date, amount, currency_name, currency_code, _from, _to, description = row
-    #             if all(row):
-    #                 rows.append(row)
-    #         if not rows:
-    #             logger.error("Ошибка. Файл не содержит данных")
-    #             raise ValueError("Файл не содержит данные")
-    #         logger.info("Функция успешно отработала.")
-    #         return rows
 
     except FileNotFoundError:
         logger.error("Ошибка. Файл не найден")
@@ -154,40 +140,3 @@ def get_transaction_from_xlsx(file_path: str = None) -> list[dict]:
         logger.error("Ошибка. Файл не найден")
         print("Ошибка. Файл не найден")
         return []
-
-
-# def csv_excel_reader(file_name: str) -> list[dict]:
-#     """Принимает название (путь) csv либо xlsx файла с информацией о транзакциях.
-#     Возвращает список словарей транзакций."""
-#     logger.info("Программа начинает работу.")
-#     # Определяем вид файла и применяем необходимый метод обработки.
-#     # if file_name.endswith("csv"):
-#     try:
-#         logger.info("Программа считывает csv файл.")
-#         file_with_dir = os.path.join(DATA_DIR, file_name)
-#         transactions_df = pd.read_csv(file_with_dir, sep=";", decimal=",", encoding="utf-8")
-#         logger.info("Программа формирует список транзакций по считанным из файла данным.")
-#         result = transactions_df.to_dict(orient="records")
-#         logger.info("Программа успешно завершила свою работу.")
-#         return result
-#     except Exception as err:
-#         logger.error(f"При считывании файла произошла ошибка {err}.")
-#     elif file_name.endswith("xlsx"):
-#         try:
-#             logger.info("Программа считывает xlsx файл.")
-#             file_with_dir = os.path.join(DATA_DIR, file_name)
-#             transactions_df = pd.read_excel(file_with_dir)
-#             logger.info("Программа формирует список транзакций по считанным из файла данным.")
-#             result = transactions_df.to_dict(orient="records")
-#             logger.info("Программа успешно завершила свою работу.")
-#             return result
-#         except Exception as err:
-#             logger.error(f"При считывании файла произошла ошибка {err}.")
-#     else:
-#         logger.error("Произошла ошибка ValueError: Неподдерживаемый формат файла.")
-#         raise ValueError("Неподдерживаемый формат файла.")
-
-
-# file_path = r"C:\Users\BSan\Desktop\SP\SP9\data\transactions_excel.xlsx"
-# f = get_transaction_from_xlsx(file_path)
-# print(f)
