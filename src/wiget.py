@@ -1,5 +1,4 @@
-from src.masks import get_card_mask
-from src.masks import get_account_mask
+from src.masks import get_account_mask, get_card_mask
 
 
 def mask_of_data(bank_user_data: str) -> str:
@@ -22,6 +21,8 @@ def mask_of_data(bank_user_data: str) -> str:
     elif len(mask_number) == 20:
         return "".join(type_of_data) + " " + get_account_mask("".join(mask_number))
 
+    return "Ошибка при вводе данных"
+
 
 def extraction_date(exact_time: str) -> str:
     """Функция вывода только даты в европейском формате из точной даты и времени в американском формате"""
@@ -32,5 +33,3 @@ def extraction_date(exact_time: str) -> str:
     year: str = exact_time[:4]
 
     return "".join(date) + "." + "".join(month) + "." + "".join(year)
-
-
